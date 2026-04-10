@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct No {
+    char valor;
+    struct No* prox;
+} No;
+
+
+typedef struct {
+    No* topo;
+} Pilha;
+
+
+void inicializar(Pilha* p) {
+    p->topo = NULL;
+}
+
+
+int isEmpty(Pilha* p) {
+    return p->topo == NULL;
+}
+
+
+void push(Pilha* p, char v) {
+    No* novo = (No*)malloc(sizeof(No));
+    if (novo != NULL) {
+        novo->valor = v;
+        novo->prox = p->topo;
+        p->topo = novo;
+    } else {
+        printf("Erro: Falha na alocacao de memoria.\n");
+    }
+}
+
+char pop(Pilha* p) {
+    if (isEmpty(p)) return '\0';
+    
+    No* temp = p->topo;
+    char v = temp->valor;
+    p->topo = temp->prox;
+    free(temp);
+    return v;
+}
+
+
+int verificaBalanceamento(char* expressao) {
+    Pilha p;
+    inicializar(&p);
+    
+    char* pt = expressao; 
+    
+    while (*pt != '\0') {
+       
+        if (*pt == '(' || *pt == '[' || *pt == '{') {
+            push(&p, *pt);
+        } 
+   
+        else if (*pt == ')' || *pt == ']' || *pt == '}') {
+            if (isEmpty(&p)) return 0; 
+            
+            char topo = pop(&p);
+            
+           
+            if ((*pt == ')' && topo != '(') ||
+                (*pt == ']' && topo != '[') ||
+                (*pt == '}' && topo != '{')) {
+                
+                while(!isEmpty(&p)) pop(&p); 
+                return 0; 
+            }
+        }
+        pt++;
+    }
+    
+    
+    int valida = isEmpty(&p); 
+    
+    
+    while(!isEmpty(&p)) pop(&p);
+    
+    return valida;
+}
+
+int main() {
+    char expressao[100];
+    
+    printf("Digite a expressao para verificar: ");
+    scanf("%99[^\n]", expressao);
+    
+    if (verificaBalanceamento(expressao)) {
+        printf("A expressao e VALIDA!\n");
+    } else {
+        printf("A expressao e INVALIDA!\n");
+    }
+    
+    return 0;
+}
