@@ -1,10 +1,10 @@
 # Trabalho-Faculdade
-Repositorio para trabalhos
+Trabalho de Estruturas de Dados
 
 Integrantes
-Vinicios Eduardo Rocha 2.a e 2.b
-Luiz Barbosa 1.a ate 1.j
-Pedro de Souza 3.a e 3.b
+Vinicios Eduardo Rocha (2.a e 2.b)
+Luiz Barbosa (1.a ate 1.j)
+Pedro de Souza (3.a e 3.b)
 
 Atividade 1.a
 Este programa em C cadastra alunos (nome e nota), utilizando alocação dinâmica de memória, e percorre os dados com ponteiros para identificar e exibir o aluno com a maior nota.
