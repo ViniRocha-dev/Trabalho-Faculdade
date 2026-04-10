@@ -45,6 +45,6 @@ int main() {
     printf("\n=== ALUNO COM MAIOR NOTA ===\n");
     printf("Nome: %s | Nota: %.2f\n", destaque->nome, destaque->nota);
 
-    free(turma); // Liberando a memória ao final
+    free(turma); // Liberando a memÃ³ria ao final
     return 0;
 }
