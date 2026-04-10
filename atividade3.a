@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Cliente {
+    int id;
+    int tempoAtendimento;
+    struct Cliente* prox;
+} Cliente;
+
+typedef struct {
+    Cliente* inicio;
+    Cliente* fim;
+} Fila;
+
+void inicializar(Fila* f) {
+    f->inicio = NULL;
+    f->fim = NULL;
+}
+
+void enfileirar(Fila* f, int id, int tempo) {
+    Cliente* novo = (Cliente*)malloc(sizeof(Cliente));
+    if (novo == NULL) return;
+    
+    novo->id = id;
+    novo->tempoAtendimento = tempo;
+    novo->prox = NULL;
+    
+    if (f->fim == NULL) {
+        f->inicio = novo;
+    } else {
+        f->fim->prox = novo;
+    }
+    f->fim = novo;
+}
+
+void processarAtendimento(Fila* f) {
+    int tempoEsperaAcumulado = 0;
+    
+    printf("\n=== Ordem de Atendimento ===\n");
+    
+    while (f->inicio != NULL) {
+        Cliente* temp = f->inicio;
+        
+        printf("Cliente ID: %d | Tempo de Espera: %d min\n", temp->id, tempoEsperaAcumulado);
+        
+        tempoEsperaAcumulado += temp->tempoAtendimento;
+        
+        f->inicio = f->inicio->prox;
+        if (f->inicio == NULL) f->fim = NULL;
+        
+        free(temp); 
+    }
+}
+
+int main() {
+    Fila filaAtendimento;
+    inicializar(&filaAtendimento);
+    
+    int n, id, tempo;
+    
+    printf("Digite o numero de clientes: ");
+    scanf("%d", &n);
+    
+    for (int i = 0; i < n; i++) {
+        printf("Dados do cliente %d (ID e Tempo de Atendimento): ", i + 1);
+        scanf("%d %d", &id, &tempo);
+        enfileirar(&filaAtendimento, id, tempo);
+    }
+    
+    processarAtendimento(&filaAtendimento);
+    
+    return 0;
+}
