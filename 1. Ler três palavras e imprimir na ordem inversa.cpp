@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Aluno {
+    char nome[50];
+    float nota;
+};
+
+
+struct Aluno* maiorNota(struct Aluno *alunos, int qtd) {
+    struct Aluno *maior = alunos; 
+    
+    for(int i = 1; i < qtd; i++) {
+        if((alunos + i)->nota > maior->nota) {
+            maior = (alunos + i);
+        }
+    }
+    return maior;
+}
+
+int main() {
+    int n;
+    printf("Quantos alunos deseja cadastrar? ");
+    scanf("%d", &n);
+
+
+    struct Aluno *turma = (struct Aluno*) malloc(n * sizeof(struct Aluno));
+
+    if(turma == NULL) {
+        printf("Erro de alocacao.\n");
+        return 1;
+    }
+
+
+    for(int i = 0; i < n; i++) {
+        printf("\nNome do aluno %d: ", i + 1);
+        scanf(" %49[^\n]", (turma + i)->nome);
+        printf("Nota do aluno %d: ", i + 1);
+        scanf("%f", &(turma + i)->nota);
+    }
+
+
+    struct Aluno *destaque = maiorNota(turma, n);
+
+    printf("\n=== ALUNO COM MAIOR NOTA ===\n");
+    printf("Nome: %s | Nota: %.2f\n", destaque->nome, destaque->nota);
+
+    free(turma); // Liberando a memória ao final
+    return 0;
+}
