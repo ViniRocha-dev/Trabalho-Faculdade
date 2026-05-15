@@ -1,0 +1,33 @@
+#include <stdio.h>
+
+/*
+Caso base:
+    fib(0) = 0, fib(1) = 1
+Redução do problema:
+    fib(n) = fib(n-1) + fib(n-2)
+Cada chamada gera duas novas chamadas (árvore exponencial).
+*/
+
+long long fib(int n, long long *calls) {
+    (*calls)++; // conta chamadas recursivas
+
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+
+    return fib(n - 1, calls) + fib(n - 2, calls);
+}
+
+int main() {
+    int n;
+    long long calls = 0;
+
+    printf("Digite n: ");
+    scanf("%d", &n);
+
+    long long result = fib(n, &calls);
+
+    printf("Fibonacci(%d) = %lld\n", n, result);
+    printf("Total de chamadas recursivas (ingenuo): %lld\n", calls);
+
+    return 0;
+}
